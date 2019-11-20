@@ -13,14 +13,21 @@ body {
 
 body, html {
     height: 100%;
+    width: 100vw;
     display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 100px 1fr 1fr;
 }
 
 .board {
+    grid-row-start: 2;
+    grid-column-start: 1;
+    grid-column-end: 4;
     display: grid;
     grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(3, 100px);
     margin: auto;
+    background-color: lightcoral;
 }
 
 .board-box {
@@ -44,3 +51,13 @@ body, html {
     border-top: 1px solid green;
     border-bottom: 1px solid green;
 }
+
+.buttons {
+    background-color: tomato;
+    grid-column-start: 2;
+    display: grid;
+    grid-template-columns: repeat(2, 100px);
+    grid-template-rows: repeat(2, 1fr);
+    justify-content: space-around;
+}
+
