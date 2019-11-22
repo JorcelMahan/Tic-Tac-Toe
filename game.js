@@ -23,22 +23,53 @@ const Game = (player1, player2) => {
     };
     const endGame = () => {
         for (let i = 0; i < grid.length; i++) {
-            let sumRow = 0;
-            for (let j = 0; j < grid.length; j++) {
-                sumRow += grid[i][j];
-            }
-            if (sumRow === 3) return [true, player1];
-            if (sumRow === 6) return [true, player2];
+            let col = colDiagonal(i);
+            if (col.filter(e => e === 1).length === 3) return [true, player1];
+            if (col.filter(e => e === 2).length === 3) return [true, player2];
+            let play1 = grid[i].filter(e => e === 1);
+            if (play1.length === 3) return [true, player1];
+            let play2 = grid[i].filter(e => e === 2);
+            if (play2.length === 3) return [true, player2];
+            let md = mainDiagonal();
+            if (md.filter(e => e === 1).length === 3) return [true, player1];
+            if (md.filter(e => e === 2).length === 3) return [true, player2];
+            let ad = auxDiagonal();
+            if (ad.filter(e => e === 1).length === 3) return [true, player1];
+            if (ad.filter(e => e === 2).length === 3) return [true, player2];
         }
         return [false, null];
     };
+    const mainDiagonal = () => {
+        let aux = [];
+        for (let i = 0; i < grid.length; i++) {
+            for (let j = 0; j < grid.length; j++) {
+                if (i === j) aux.push(grid[i][j])
+            }
+        }
+        return aux;
+    };
+    const colDiagonal = j => {
+        let aux = [];
+        for (let i = 0; i < grid.length; i++) {
+            aux.push(grid[i][j])
+        }
+        return aux;
+    };
+    const auxDiagonal = () => {
+        let aux = [];
+        for (let i = 0; i < grid.length; i++) {
+            for (let j = 0; j < grid.length; j++) {
+                if (i + j === grid.length - 1) aux.push(grid[i][j])
+            }
+        }
+        return aux;
+    };
     const draw = () => {
-        let results = [];
+        let c = 0;
         grid.forEach(e => {
-            let sum = e.reduce((a, b) => a + b);
-            results.push(sum !== 3 && sum !== 6 && !e.includes(0));
+            if (!e.includes(0)) c++;
         });
-        return !results.includes(false);
+        return c === 3
     };
     const whoesPlay = () => {
         if (player1.isTurn()) {
@@ -65,10 +96,29 @@ let isStart = false;
 
 start.onclick = () => {
     isStart = true;
-    player1.getDom().style.border = `5px solid red`;
+    if (start.textContent === `Play again?`) {
+        resetGrid();
+        game.reset();
+    }
+    if (player1.isTurn()) {
+        player1.getDom().style.border = `5px solid tomato`;
+        player2.getDom().style.border = `none`;
+    } else {
+        player2.getDom().style.border = `5px solid tomato`;
+        player1.getDom().style.border = `none`;
+    }
 };
-reset.onclick = () => {
+
+function resetGrid() {
+    start.textContent = `Start Game`;
+    player1.getDom().style.border = `none`;
+    player2.getDom().style.border = `none`;
     document.querySelectorAll('.board-box').forEach(el => el.textContent = '');
+    document.querySelectorAll('.board-box').forEach(box => box.addEventListener('click', touch))
+}
+
+reset.onclick = () => {
+    resetGrid();
     game.reset();
 };
 const render = () => {
@@ -79,18 +129,27 @@ const render = () => {
 function touch(e) {
     if (isStart) {
         let player = game.whoesPlay();
-        e.target.textContent = player.getMarca();
-        let [i, j] = e.target.dataset.box.split('');
-        game.grid[i][j] = player.getMark();
-        if (player === player1) {
-            player1.getDom().style.border = `none`;
-            player2.getDom().style.border = `5px solid tomato`;
-        } else {
-            player2.getDom().style.border = `none`;
-            player1.getDom().style.border = `5px solid tomato`;
+        if (e.target.textContent === '') {
+            e.target.textContent = player.getMarca();
+            let [i, j] = e.target.dataset.box.split('');
+            game.grid[i][j] = player.getMark();
+            if (player === player1) {
+                player1.getDom().style.border = `none`;
+                player2.getDom().style.border = `5px solid tomato`;
+            } else {
+                player2.getDom().style.border = `none`;
+                player1.getDom().style.border = `5px solid tomato`;
+            }
+            if (game.endGame()[0]) {
+                alert(`winner ${game.endGame()[1].getName()}`);
+                start.textContent = `Play again?`;
+                document.querySelectorAll('.board-box').forEach(box => box.removeEventListener('click', touch))
+            }
+            if (game.draw() && !game.endGame()[0]) {
+                alert('DRAW');
+                start.textContent = `Play again?`;
+            }
         }
-        if (game.endGame()[0]) alert(`winner ${game.endGame()[1].getName()}`);
-        if (game.draw()) alert('draw');
     }
 }
 

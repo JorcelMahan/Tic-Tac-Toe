@@ -52,6 +52,23 @@ body, html {
     border-bottom: 1px solid green;
 }
 
+.btn {
+    padding: .3em 1.2em;
+    margin: 0 .1em .1em 0;
+    border: .16em solid rgba(255, 255, 255, 0);
+    border-radius: 2em;
+    text-decoration: none;
+    font-weight: 300;
+    color: #fff;
+    text-shadow: 0 .04em .04em rgba(0, 0, 0, .35);
+    text-align: center;
+    transition: all .2s;
+}
+
+.btn:hover {
+    border-color: rgba(255, 255, 255, 1);
+}
+
 .buttons {
     background-color: tomato;
     grid-column-start: 2;
@@ -59,8 +76,14 @@ body, html {
     grid-template-columns: repeat(2, 100px);
     grid-template-rows: repeat(2, 1fr);
     justify-content: space-around;
+    padding: 10px;;
 }
-
+.buttons #start {
+    background-color: forestgreen;
+}
+.buttons #reset {
+    background-color: deeppink;
+}
 .players {
     background-color: deeppink;
     grid-row-start: 2;
@@ -75,4 +98,10 @@ body, html {
 .players .btn {
     width: 100px;
     height: 50px;
+}
+.players #player1 {
+    background-color: brown;
+}
+.players #player2 {
+    background-color: darkgoldenrod;
 }
