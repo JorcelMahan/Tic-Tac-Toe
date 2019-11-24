@@ -1,11 +1,12 @@
-const Player = (name, marca, dom, turno, mark) => {
+const Player = (name, marca, dom, turno, mark, color) => {
     const getName = () => name;
     const getMarca = () => marca;
+    const getColor = () => color;
     const getDom = () => dom;
     const isTurn = () => turno;
     const setTurno = () => turno = !turno;
     const getMark = () => mark;
-    return {getName, getMarca, getDom, isTurn, setTurno, getMark};
+    return {getName, getMarca, getDom, isTurn, setTurno, getMark, getColor};
 };
 const Game = (player1, player2) => {
     const grid = [
@@ -86,8 +87,8 @@ const Game = (player1, player2) => {
     };
     return {grid, whoesPlay, reset, draw, endGame};
 };
-let player1 = Player('player1', 'X', document.getElementById('player1'), true, 1);
-let player2 = Player('player2', 'O', document.getElementById('player2'), false, 2);
+let player1 = Player('player1', 'X', document.getElementById('player1'), true, 1, 'blue');
+let player2 = Player('player2', 'O', document.getElementById('player2'), false, 2, 'rebeccapurple');
 let game = Game(player1, player2);
 
 const reset = document.querySelector('#reset');
@@ -131,6 +132,7 @@ function touch(e) {
         let player = game.whoesPlay();
         if (e.target.textContent === '') {
             e.target.textContent = player.getMarca();
+            e.target.style.color = player.getColor();
             let [i, j] = e.target.dataset.box.split('');
             game.grid[i][j] = player.getMark();
             if (player === player1) {

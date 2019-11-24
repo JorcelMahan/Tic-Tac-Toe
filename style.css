@@ -27,29 +27,30 @@ body, html {
     grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(3, 100px);
     margin: auto;
-    background-color: lightcoral;
+    background-color: #5d2f10;
 }
 
 .board-box {
     text-align: center;
     font-size: 100px;
     line-height: 100px;
+    color: darkgoldenrod;
 }
 
 .board-box:nth-child(5) {
-    border: 1px solid green;
+    border: 1px solid;
 }
 
 .board-box:nth-child(2),
 .board-box:nth-child(8) {
-    border-right: 1px solid green;
-    border-left: 1px solid green;
+    border-right: 1px solid;
+    border-left: 1px solid;
 }
 
 .board-box:nth-child(4),
 .board-box:nth-child(6) {
-    border-top: 1px solid green;
-    border-bottom: 1px solid green;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
 }
 
 .btn {
@@ -70,7 +71,7 @@ body, html {
 }
 
 .buttons {
-    background-color: tomato;
+    background-color: lightgray;
     grid-column-start: 2;
     display: grid;
     grid-template-columns: repeat(2, 100px);
@@ -78,30 +79,37 @@ body, html {
     justify-content: space-around;
     padding: 10px;;
 }
+
 .buttons #start {
     background-color: forestgreen;
 }
+
 .buttons #reset {
-    background-color: deeppink;
+    background-color: tomato;
 }
+
 .players {
-    background-color: deeppink;
-    grid-row-start: 2;
-    grid-column: 1;
+    background-color: lightgray;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    grid-column: 2;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr;
     justify-items: center;
     align-items: center;
+    padding: 10px;
 }
 
 .players .btn {
     width: 100px;
     height: 50px;
 }
+
 .players #player1 {
-    background-color: brown;
+    background-color: blue;
 }
+
 .players #player2 {
-    background-color: darkgoldenrod;
+    background-color: rebeccapurple;
 }
